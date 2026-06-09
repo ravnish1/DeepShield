@@ -1,13 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useRiskStore } from "../store/riskStore";
 import { Menu, Bell, AlertTriangle, FileText, Settings } from "lucide-react";
 
 export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
-  const location = useLocation();
-  const transactions = useRiskStore((state) => state.transactions);
-  const flaggedCount = transactions.filter((t) => t.status === "flagged").length;
-  
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
