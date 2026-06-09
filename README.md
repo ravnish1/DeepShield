@@ -1,73 +1,86 @@
-# React + TypeScript + Vite
+# DeepShield - Rental Fraud Control Center
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DeepShield is a robust B2B Trust and Safety frontend dashboard designed to monitor owner onboarding, property listings, and payout streams. It provides comprehensive Risk and KYC management to detect, analyze, and prevent rental fraud.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 1. Risk Management Dashboard
+A centralized Trust and Safety operations hub for real-time monitoring:
+- **Stat Cards**: Real-time tracking of processed deposits, at-risk funds, suspicious listing rates, and cleared accounts.
+- **Active Rules Engine (DeepShield Score Engine)**: Transparent scoring system that flags anomalies such as:
+  - Duplicate listing images (reverse stock lookup)
+  - Rapid bank account changes post-payout (account hijack detection)
+  - Overlapping rental dates (double renting scams)
+  - Mismatched owner/property document names
+  - Suspiciously low listing prices (clickbait/bait listings)
+- **Risk Heatmap**: Visual representation of risk across different segments.
+- **Transaction Monitoring**: Interactive transaction tables with filtering and detailed review drawers.
 
-## React Compiler
+### 2. Comprehensive KYC Onboarding Flow
+A streamlined, multi-step verification process for property owners and brokers:
+- **Personal Information**: Data collection for individuals and brokers.
+- **Document Upload**:
+  - Identity Verification (Aadhaar/Document Number)
+  - Property Proof (Address, Rent Agreement, Deed)
+  - Liveness Check (Selfie upload)
+- **Status Tracking**: Real-time feedback on verification progress.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 💻 Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework**: React 19
+- **Language**: TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS, Tailwind Animate
+- **UI Components**: Radix UI (Accessible primitive components)
+- **Icons**: Lucide React
+- **State Management**: Zustand
+- **Routing**: React Router DOM
+- **Internationalization**: i18next & react-i18next
+- **Date Utilities**: date-fns
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
+Make sure you have Node.js (version 20+ recommended) and npm installed.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clone the repository and navigate to the project directory:
+   ```bash
+   cd "frontend b2b"
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:5173`.
+
+### Build for Production
+
+To build the application for production, run:
+```bash
+npm run build
+```
+This will compile TypeScript and bundle the app using Vite into the `dist` directory.
+
+### Linting
+
+To run ESLint and check for code quality issues:
+```bash
+npm run lint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📁 Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- `/src/pages`: Main application views (`KYCPage`, `RiskPage`)
+- `/src/components`: Reusable UI components organized by domain (`kyc`, `risk`, `ui`)
+- `/src/store`: Zustand state management stores (`kycStore`, `riskStore`)
+- `/src/data`: Mock data or static data definitions
+- `/src/lib`: Utility functions and helpers
+- `/src/i18n.ts`: Internationalization configuration
