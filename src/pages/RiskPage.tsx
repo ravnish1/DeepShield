@@ -5,8 +5,10 @@ import TransactionTable from "../components/risk/TransactionTable";
 import TransactionDrawer from "../components/risk/TransactionDrawer";
 import RiskHeatmap from "../components/risk/RiskHeatmap";
 import { AlertTriangle, CheckCircle, Clock, Activity, ShieldAlert, ChevronDown, ChevronUp } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function RiskPage() {
+  const { t } = useTranslation();
   const { transactions } = useRiskStore();
   const [showRules, setShowRules] = useState(false);
 
@@ -107,9 +109,9 @@ export default function RiskPage() {
     <div className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto animate-fade-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-[22px] font-medium tracking-tight text-black">Rental Fraud Control Center</h1>
+          <h1 className="text-[22px] font-medium tracking-tight text-black">{t('risk.title')}</h1>
           <p className="text-[13px] text-secondary mt-1">
-            Trust and Safety risk operations hub monitoring owner onboarding, listings, and payout streams.
+            {t('risk.subtitle')}
           </p>
         </div>
         
@@ -119,7 +121,7 @@ export default function RiskPage() {
           className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 text-[13px] font-medium text-black transition-colors"
         >
           <ShieldAlert className="w-4 h-4 text-red-600" />
-          <span>Active Rules Engine</span>
+          <span>{t('rules.activeWeights')}</span>
           {showRules ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
       </div>
@@ -127,7 +129,7 @@ export default function RiskPage() {
       {/* Rules Engine Panel */}
       {showRules && (
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 mb-8 animate-slide-in-row">
-          <h3 className="text-[14px] font-bold text-black mb-3">DeepShield Score Engine Weights (v1.2)</h3>
+          <h3 className="text-[14px] font-bold text-black mb-3">{t('rules.activeWeights')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {rules.map((r, i) => (
               <div key={i} className="bg-white border border-gray-100 p-4 rounded-lg shadow-sm">

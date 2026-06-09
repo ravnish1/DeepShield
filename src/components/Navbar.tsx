@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Menu, Bell, AlertTriangle, FileText, Settings } from "lucide-react";
 
 export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
+  const { t } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +32,7 @@ export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
             </button>
             <div className="flex flex-col justify-center">
               <span className="font-mono font-bold text-[16px] tracking-tight text-black line-clamp-1">
-                DeepShield
+                {t('brandName')}
               </span>
             </div>
           </div>
@@ -59,8 +61,8 @@ export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden z-50 animate-slide-in-row">
                   <div className="px-4 py-3 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">Notifications</span>
-                    <span className="text-xs text-red-600 hover:text-red-700 cursor-pointer font-medium">Mark all as read</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">{t('navbar.notifications')}</span>
+                    <span className="text-xs text-red-600 hover:text-red-700 cursor-pointer font-medium">{t('navbar.markAsRead')}</span>
                   </div>
                   <div className="divide-y divide-gray-50">
                     <div className="p-4 hover:bg-gray-50 flex gap-3 cursor-pointer transition-colors">
@@ -69,9 +71,9 @@ export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
                       </div>
                       <div className="flex-1">
                         <p className="text-sm text-black font-medium leading-snug mb-1">
-                          Duplicate property images detected — Gurugram Ad Ad Ad
+                          {t('navbar.duplicateImages')}
                         </p>
-                        <p className="text-xs text-gray-500">2 min ago</p>
+                        <p className="text-xs text-gray-500">{t('navbar.minAgo')}</p>
                       </div>
                       <div className="w-2 h-2 rounded-full bg-red-600 mt-1"></div>
                     </div>
@@ -82,9 +84,9 @@ export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
                       </div>
                       <div className="flex-1">
                         <p className="text-sm text-black font-medium leading-snug mb-1">
-                          Owner verification pending review — Rahul Verma
+                          {t('navbar.verificationPending')}
                         </p>
-                        <p className="text-xs text-gray-500">14 min ago</p>
+                        <p className="text-xs text-gray-500">{t('navbar.min14Ago')}</p>
                       </div>
                       <div className="w-2 h-2 rounded-full bg-yellow-500 mt-1"></div>
                     </div>
@@ -95,9 +97,9 @@ export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
                       </div>
                       <div className="flex-1">
                         <p className="text-sm text-black font-medium leading-snug mb-1">
-                          System: Rental model updated to v1.2
+                          {t('navbar.systemUpdate')}
                         </p>
-                        <p className="text-xs text-gray-500">1 hr ago</p>
+                        <p className="text-xs text-gray-500">{t('navbar.hr1Ago')}</p>
                       </div>
                       <div className="w-2 h-2 rounded-full bg-blue-600 mt-1"></div>
                     </div>
@@ -106,8 +108,8 @@ export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
               )}
             </div>
 
-            <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center text-xs font-semibold tracking-wider cursor-pointer active:scale-[0.97] transition-transform">
-              RK
+            <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-xs font-semibold text-red-700 cursor-pointer hover:bg-red-200 transition-colors">
+              {t('sidebar.userInitials')}
             </div>
           </div>
 

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { User, Bell, Key, Save, Copy, Check } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function SettingsPage() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("general");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
@@ -14,9 +16,9 @@ export default function SettingsPage() {
   return (
     <div className="py-8 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto animate-fade-in">
       <div className="mb-8">
-        <h1 className="text-[22px] font-medium tracking-tight text-black">Settings</h1>
+        <h1 className="text-[22px] font-medium tracking-tight text-black">{t('settings.title')}</h1>
         <p className="text-[13px] text-secondary mt-1">
-          Manage your platform preferences and API integrations.
+          {t('settings.subtitle')}
         </p>
       </div>
 
@@ -33,7 +35,7 @@ export default function SettingsPage() {
               }`}
             >
               <User className={`w-4 h-4 ${activeTab === "general" ? "text-white" : "text-gray-400"}`} />
-              General Profile
+              {t('settings.tabs.general')}
             </button>
             <button
               onClick={() => setActiveTab("notifications")}
@@ -44,7 +46,7 @@ export default function SettingsPage() {
               }`}
             >
               <Bell className={`w-4 h-4 ${activeTab === "notifications" ? "text-white" : "text-gray-400"}`} />
-              Notifications
+              {t('settings.tabs.notifications')}
             </button>
             <button
               onClick={() => setActiveTab("apikeys")}
@@ -55,7 +57,7 @@ export default function SettingsPage() {
               }`}
             >
               <Key className={`w-4 h-4 ${activeTab === "apikeys" ? "text-white" : "text-gray-400"}`} />
-              API Keys
+              {t('settings.tabs.apiKeys')}
             </button>
           </nav>
         </div>
@@ -66,13 +68,13 @@ export default function SettingsPage() {
           {activeTab === "general" && (
             <div className="space-y-6 animate-fade-in">
               <div>
-                <h2 className="text-[16px] font-semibold text-black">Company Details</h2>
-                <p className="text-[13px] text-gray-500 mb-6">Update your organization's basic information.</p>
+                <h2 className="text-[16px] font-semibold text-black">{t('settings.general.title')}</h2>
+                <p className="text-[13px] text-gray-500 mb-6">{t('settings.general.desc')}</p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[12px] font-medium text-black">Company Name</label>
+                  <label className="text-[12px] font-medium text-black">{t('settings.general.companyName')}</label>
                   <input 
                     type="text" 
                     defaultValue="Acme Real Estate Ltd."
@@ -80,7 +82,7 @@ export default function SettingsPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[12px] font-medium text-black">Support Email</label>
+                  <label className="text-[12px] font-medium text-black">{t('settings.general.supportEmail')}</label>
                   <input 
                     type="email" 
                     defaultValue="support@acme.com"
@@ -88,11 +90,11 @@ export default function SettingsPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[12px] font-medium text-black">Timezone</label>
+                  <label className="text-[12px] font-medium text-black">{t('settings.general.timezone')}</label>
                   <select className="w-full h-10 px-3 rounded-md border border-gray-200 text-[13px] bg-white focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors">
-                    <option>Asia/Kolkata (IST)</option>
-                    <option>UTC</option>
-                    <option>America/New_York (EST)</option>
+                    <option>{t('settings.general.timezones.ist')}</option>
+                    <option>{t('settings.general.timezones.utc')}</option>
+                    <option>{t('settings.general.timezones.est')}</option>
                   </select>
                 </div>
               </div>
@@ -100,7 +102,7 @@ export default function SettingsPage() {
               <div className="pt-6 border-t border-gray-100 flex justify-end">
                 <button className="flex items-center gap-2 px-6 py-2 bg-black text-white rounded-lg text-[13px] font-medium hover:bg-gray-800 transition-colors">
                   <Save className="w-4 h-4" />
-                  Save Changes
+                  {t('settings.general.saveChanges')}
                 </button>
               </div>
             </div>
@@ -109,16 +111,16 @@ export default function SettingsPage() {
           {activeTab === "notifications" && (
             <div className="space-y-6 animate-fade-in">
               <div>
-                <h2 className="text-[16px] font-semibold text-black">Alert Preferences</h2>
-                <p className="text-[13px] text-gray-500 mb-6">Choose when and how you want to be notified.</p>
+                <h2 className="text-[16px] font-semibold text-black">{t('settings.notifications.title')}</h2>
+                <p className="text-[13px] text-gray-500 mb-6">{t('settings.notifications.desc')}</p>
               </div>
 
               <div className="space-y-4">
                 {[
-                  { title: "High-Risk Transactions", desc: "Get an email when a transaction's risk score exceeds 80.", default: true },
-                  { title: "KYC Verification Failures", desc: "Alert me when a user fails document verification.", default: true },
-                  { title: "Rules Engine Updates", desc: "Notify me when a team member modifies active rules.", default: false },
-                  { title: "Weekly Digest", desc: "Receive a weekly summary report of fraud analytics.", default: true },
+                  { title: t('settings.notifications.highRisk'), desc: t('settings.notifications.highRiskDesc'), default: true },
+                  { title: t('settings.notifications.kycFailures'), desc: t('settings.notifications.kycFailuresDesc'), default: true },
+                  { title: t('settings.notifications.rulesUpdates'), desc: t('settings.notifications.rulesUpdatesDesc'), default: false },
+                  { title: t('settings.notifications.weeklyDigest'), desc: t('settings.notifications.weeklyDigestDesc'), default: true },
                 ].map((notif, idx) => (
                   <div key={idx} className="flex items-start justify-between p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors">
                     <div className="pr-8">
@@ -139,11 +141,11 @@ export default function SettingsPage() {
             <div className="space-y-6 animate-fade-in">
               <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-[16px] font-semibold text-black">API Integrations</h2>
-                  <p className="text-[13px] text-gray-500 mb-6">Manage API keys used to connect your backend to DeepShield.</p>
+                  <h2 className="text-[16px] font-semibold text-black">{t('settings.apiKeys.title')}</h2>
+                  <p className="text-[13px] text-gray-500 mb-6">{t('settings.apiKeys.desc')}</p>
                 </div>
                 <button className="px-4 py-2 bg-black text-white rounded-lg text-[12px] font-medium hover:bg-gray-800 transition-colors">
-                  Generate New Key
+                  {t('settings.apiKeys.generateKey')}
                 </button>
               </div>
 
@@ -158,7 +160,7 @@ export default function SettingsPage() {
                         <span className="w-2 h-2 rounded-full bg-green-500"></span>
                         <span className="text-[14px] font-bold text-black">{api.name}</span>
                       </div>
-                      <button className="text-[12px] text-red-600 font-medium hover:underline">Revoke</button>
+                      <button className="text-[12px] text-red-600 font-medium hover:underline">{t('settings.apiKeys.revoke')}</button>
                     </div>
                     
                     <div className="flex items-center justify-between bg-gray-50 p-2.5 rounded-md border border-gray-100">
@@ -172,8 +174,8 @@ export default function SettingsPage() {
                     </div>
                     
                     <div className="flex gap-4 mt-3 text-[11px] text-gray-400">
-                      <span>Created: {api.created}</span>
-                      <span>Last Used: {api.lastUsed}</span>
+                      <span>{t('settings.apiKeys.created', { date: api.created })}</span>
+                      <span>{t('settings.apiKeys.lastUsed', { time: api.lastUsed })}</span>
                     </div>
                   </div>
                 ))}

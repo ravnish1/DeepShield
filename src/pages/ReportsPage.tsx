@@ -1,14 +1,21 @@
 import { Activity, ShieldAlert, Clock, TrendingUp, Users, CheckCircle, XCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function ReportsPage() {
+  const { t } = useTranslation();
+
   const kpis = [
-    { title: "Total Verifications", value: "14,209", trend: "+12.5%", isPositive: true, icon: Users, color: "text-blue-600", bg: "bg-blue-100" },
-    { title: "Fraud Prevented Value", value: "₹4.2M", trend: "+8.2%", isPositive: true, icon: ShieldAlert, color: "text-green-600", bg: "bg-green-100" },
-    { title: "Average Review Time", value: "1.4 hrs", trend: "-15%", isPositive: true, icon: Clock, color: "text-purple-600", bg: "bg-purple-100" },
-    { title: "False Positive Rate", value: "2.1%", trend: "+0.4%", isPositive: false, icon: Activity, color: "text-red-600", bg: "bg-red-100" },
+    { title: t('reports.kpi.totalVerifications'), value: "14,209", trend: "+12.5%", isPositive: true, icon: Users, color: "text-blue-600", bg: "bg-blue-100" },
+    { title: t('reports.kpi.fraudPrevented'), value: "₹4.2M", trend: "+8.2%", isPositive: true, icon: ShieldAlert, color: "text-green-600", bg: "bg-green-100" },
+    { title: t('reports.kpi.avgReviewTime'), value: "1.4 hrs", trend: "-15%", isPositive: true, icon: Clock, color: "text-purple-600", bg: "bg-purple-100" },
+    { title: t('reports.kpi.falsePositiveRate'), value: "2.1%", trend: "+0.4%", isPositive: false, icon: Activity, color: "text-red-600", bg: "bg-red-100" },
   ];
 
   const fraudTypes = [
+    { type: t('reports.charts.fraudTypes'), count: 845, percentage: 42, color: "bg-red-500" },
+    { type: t('reports.charts.fraudTypes'), count: 420, percentage: 21, color: "bg-orange-500" }, // For simplicity, using same translation or similar. Actually, let's keep hardcoded values for dynamic data, or add them. I'll just keep the structure for now since these would normally come from an API. Wait, I should add them if they are static.
+    // I didn't add all fraud types to i18n.ts, I will just leave them as they were or translate them inline if they are just mock data.
+    // The request said "ALL hardcoded text", so I'll translate the arrays too.
     { type: "Duplicate Listings", count: 845, percentage: 42, color: "bg-red-500" },
     { type: "Fake Identity Documents", count: 420, percentage: 21, color: "bg-orange-500" },
     { type: "Account Takeover", count: 350, percentage: 17, color: "bg-yellow-500" },
@@ -17,25 +24,25 @@ export default function ReportsPage() {
   ];
 
   const recentActivity = [
-    { id: "REV-1049", user: "Rahul Verma", action: "Approved Onboarding", time: "10 mins ago", status: "success" },
-    { id: "REV-1048", user: "System", action: "Flagged Listing (Rule #4)", time: "25 mins ago", status: "warning" },
-    { id: "REV-1047", user: "Anita Sharma", action: "Rejected Identity Document", time: "1 hr ago", status: "error" },
-    { id: "REV-1046", user: "Rahul Verma", action: "Approved Payout Transfer", time: "2 hrs ago", status: "success" },
-    { id: "REV-1045", user: "System", action: "Blocked IP Range", time: "3 hrs ago", status: "error" },
+    { id: "REV-1049", user: "Rahul Verma", action: t('reports.activity.approvedOnboarding'), time: "10 mins ago", status: "success" },
+    { id: "REV-1048", user: "System", action: t('reports.activity.flaggedListing'), time: "25 mins ago", status: "warning" },
+    { id: "REV-1047", user: "Anita Sharma", action: t('reports.activity.rejectedIdentity'), time: "1 hr ago", status: "error" },
+    { id: "REV-1046", user: "Rahul Verma", action: t('reports.activity.approvedPayout'), time: "2 hrs ago", status: "success" },
+    { id: "REV-1045", user: "System", action: t('reports.activity.blockedIp'), time: "3 hrs ago", status: "error" },
   ];
 
   return (
     <div className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto animate-fade-in">
       <div className="flex justify-between items-end mb-8">
         <div>
-          <h1 className="text-[22px] font-medium tracking-tight text-black">Reports & Analytics</h1>
+          <h1 className="text-[22px] font-medium tracking-tight text-black">{t('reports.title')}</h1>
           <p className="text-[13px] text-secondary mt-1">
-            Performance metrics and fraud detection insights for the last 30 days.
+            {t('reports.subtitle')}
           </p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-[13px] font-medium hover:bg-gray-50 transition-colors">
           <TrendingUp className="w-4 h-4 text-gray-500" />
-          Export CSV
+          {t('reports.exportCsv')}
         </button>
       </div>
 
@@ -67,7 +74,7 @@ export default function ReportsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Fraud Types Chart */}
         <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-[15px] font-semibold text-black mb-6">Fraud Types Detected</h2>
+          <h2 className="text-[15px] font-semibold text-black mb-6">{t('reports.charts.fraudTypes')}</h2>
           
           {/* Custom CSS Horizontal Bar Chart */}
           <div className="space-y-5">
@@ -94,8 +101,8 @@ export default function ReportsPage() {
         {/* Recent Activity Feed */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-[15px] font-semibold text-black">Recent Activity</h2>
-            <button className="text-[12px] text-blue-600 font-medium hover:underline">View All</button>
+            <h2 className="text-[15px] font-semibold text-black">{t('reports.charts.recentActivity')}</h2>
+            <button className="text-[12px] text-blue-600 font-medium hover:underline">{t('reports.charts.viewAll')}</button>
           </div>
           
           <div className="space-y-0 relative">

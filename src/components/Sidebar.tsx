@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ShieldCheck, LayoutDashboard, FileText, Settings, Key, X } from "lucide-react";
 
 interface SidebarProps {
@@ -8,13 +9,14 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const location = useLocation();
+  const { t } = useTranslation();
 
   const links = [
-    { name: "Owner Verification", path: "/kyc", icon: ShieldCheck },
-    { name: "Fraud Control Center", path: "/risk", icon: LayoutDashboard },
-    { name: "Reports & Analytics", path: "/reports", icon: FileText },
-    { name: "Rules Engine", path: "/rules", icon: Key },
-    { name: "Settings", path: "/settings", icon: Settings },
+    { name: t('sidebar.ownerVerification'), path: "/kyc", icon: ShieldCheck },
+    { name: t('sidebar.fraudControlCenter'), path: "/risk", icon: LayoutDashboard },
+    { name: t('sidebar.reportsAnalytics'), path: "/reports", icon: FileText },
+    { name: t('sidebar.rulesEngine'), path: "/rules", icon: Key },
+    { name: t('sidebar.settings'), path: "/settings", icon: Settings },
   ];
 
   return (
@@ -34,7 +36,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200 shrink-0">
           <span className="font-mono font-bold text-lg tracking-tight text-black flex items-center gap-2">
             <ShieldCheck className="h-6 w-6 text-red-600" />
-            DeepShield
+            {t('brandName')}
           </span>
           <button 
             className="lg:hidden p-2 -mr-2 text-gray-500 hover:bg-gray-100 rounded-full"
@@ -70,11 +72,11 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         <div className="p-4 border-t border-gray-200 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-semibold text-gray-600">
-              RK
+              {t('sidebar.userInitials')}
             </div>
             <div>
-              <p className="text-sm font-medium text-black">Rahul Kumar</p>
-              <p className="text-xs text-gray-500">Risk Operations</p>
+              <p className="text-sm font-medium text-black">{t('sidebar.userName')}</p>
+              <p className="text-xs text-gray-500">{t('sidebar.userRole')}</p>
             </div>
           </div>
         </div>

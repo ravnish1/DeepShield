@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useKYCStore } from "../store/kycStore";
 import StepIndicator from "../components/kyc/StepIndicator";
 import PersonalInfoStep from "../components/kyc/steps/PersonalInfoStep";
@@ -9,6 +10,7 @@ import { Button } from "../components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function KYCPage() {
+  const { t } = useTranslation();
   const { currentStep, nextStep, prevStep, formData, isSubmitting, simulateVerification } = useKYCStore();
 
   useEffect(() => {
@@ -95,7 +97,7 @@ export default function KYCPage() {
                 className={currentStep === 0 ? "invisible" : "active:scale-[0.97]"}
               >
                 <ChevronLeft className="w-4 h-4 mr-2" />
-                Back
+                {t('kyc.documents.back', 'Back')}
               </Button>
               <Button
                 onClick={handleNext}
@@ -103,10 +105,10 @@ export default function KYCPage() {
                 className="bg-black text-white hover:bg-gray-800 active:scale-[0.97]"
               >
                 {currentStep === 2 ? (
-                  isSubmitting ? "Submitting..." : "Submit for Verification"
+                  isSubmitting ? t('kyc.verification.submitting', 'Submitting...') : t('kyc.verification.submit', 'Submit for Verification')
                 ) : (
                   <>
-                    Continue
+                    {t('kyc.personal.continue', 'Continue')}
                     <ChevronRight className="w-4 h-4 ml-2" />
                   </>
                 )}

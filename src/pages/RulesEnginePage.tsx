@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { ShieldAlert, Plus, Zap, Power } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function RulesEnginePage() {
+  const { t } = useTranslation();
   const [engineEnabled, setEngineEnabled] = useState(true);
 
   const initialRules = [
@@ -29,9 +31,9 @@ export default function RulesEnginePage() {
             <ShieldAlert className={`w-6 h-6 ${engineEnabled ? "text-red-600" : "text-gray-400"}`} />
           </div>
           <div>
-            <h1 className="text-[20px] font-semibold tracking-tight text-black">DeepShield Engine</h1>
+            <h1 className="text-[20px] font-semibold tracking-tight text-black">{t('rules.title')}</h1>
             <p className="text-[13px] text-secondary mt-0.5">
-              Automated risk scoring is currently <strong className={engineEnabled ? "text-green-600" : "text-gray-500"}>{engineEnabled ? "Active" : "Paused"}</strong>.
+              {t('rules.subtitle')} <strong className={engineEnabled ? "text-green-600" : "text-gray-500"}>{engineEnabled ? t('rules.active') : t('rules.paused')}</strong>.
             </p>
           </div>
         </div>
@@ -46,19 +48,19 @@ export default function RulesEnginePage() {
             }`}
           >
             <Power className="w-4 h-4" />
-            {engineEnabled ? "Pause Engine" : "Activate Engine"}
+            {engineEnabled ? t('rules.pauseEngine') : t('rules.activateEngine')}
           </button>
           
           <button className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg text-[13px] font-medium hover:bg-gray-800 transition-colors">
             <Plus className="w-4 h-4" />
-            Add Rule
+            {t('rules.addRule')}
           </button>
         </div>
       </div>
 
       <div className="flex justify-between items-end mb-6">
-        <h2 className="text-[16px] font-semibold text-black">Active Rule Weights (v1.2)</h2>
-        <span className="text-[12px] text-gray-500 font-medium">{rules.filter(r => r.enabled).length} Rules Active</span>
+        <h2 className="text-[16px] font-semibold text-black">{t('rules.activeWeights')}</h2>
+        <span className="text-[12px] text-gray-500 font-medium">{t('rules.rulesActive', { count: rules.filter(r => r.enabled).length })}</span>
       </div>
 
       {/* Rules Grid */}
@@ -88,11 +90,11 @@ export default function RulesEnginePage() {
 
             <div className="bg-gray-50 rounded-lg p-3 border border-gray-100 font-mono space-y-1">
               <div className="flex flex-col">
-                <span className="text-[10px] text-gray-400 font-sans uppercase tracking-wider mb-0.5">Condition</span>
+                <span className="text-[10px] text-gray-400 font-sans uppercase tracking-wider mb-0.5">{t('rules.condition')}</span>
                 <span className="text-[12px] text-black">IF <span className="text-blue-600">{rule.condition}</span></span>
               </div>
               <div className="flex flex-col pt-2 border-t border-gray-100/50 mt-2">
-                <span className="text-[10px] text-gray-400 font-sans uppercase tracking-wider mb-0.5">Effect</span>
+                <span className="text-[10px] text-gray-400 font-sans uppercase tracking-wider mb-0.5">{t('rules.effect')}</span>
                 <span className="text-[12px] text-black">THEN <span className="text-red-600 font-semibold">{rule.effect}</span></span>
               </div>
             </div>
