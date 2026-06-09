@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useRiskStore } from "../store/riskStore";
-import { ShieldCheck, Bell, AlertTriangle, FileText, Settings } from "lucide-react";
+import { Menu, Bell, AlertTriangle, FileText, Settings } from "lucide-react";
 
-export default function Navbar() {
+export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
   const location = useLocation();
   const transactions = useRiskStore((state) => state.transactions);
   const flaggedCount = transactions.filter((t) => t.status === "flagged").length;
@@ -26,55 +26,28 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* Left: Brand */}
-          <div className="flex flex-col justify-center min-w-[240px]">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="h-6 w-6 text-red-600" />
-              <span className="font-mono font-bold text-lg tracking-tight text-black">
-                DeepShield Rental Trust
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 mt-0.5 ml-8">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-              <span className="text-[10px] text-gray-500 uppercase tracking-wider font-medium">
-                All systems operational
+          {/* Left: Brand & Menu (Mobile/Tablet only) */}
+          <div className="flex items-center gap-3 lg:hidden">
+            <button 
+              onClick={onMenuClick}
+              className="p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors active:scale-[0.97]"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <div className="flex flex-col justify-center">
+              <span className="font-mono font-bold text-[16px] tracking-tight text-black line-clamp-1">
+                DeepShield
               </span>
             </div>
           </div>
 
           {/* Center: Nav Links */}
           <div className="hidden sm:flex items-center justify-center space-x-2 flex-1">
-            <Link
-              to="/kyc"
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors duration-150 ${
-                location.pathname === "/kyc"
-                  ? "bg-black text-white"
-                  : "bg-transparent text-gray-500 hover:bg-gray-100"
-              }`}
-            >
-              Owner Verification
-            </Link>
-            <Link
-              to="/risk"
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors duration-150 flex items-center ${
-                location.pathname === "/risk"
-                  ? "bg-black text-white"
-                  : "bg-transparent text-gray-500 hover:bg-gray-100"
-              }`}
-            >
-              Fraud Control Center
-              {flaggedCount > 0 && (
-                <span className={`ml-2 inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
-                  location.pathname === "/risk" ? "bg-red-600 text-white" : "bg-red-100 text-red-800"
-                }`}>
-                  {flaggedCount}
-                </span>
-              )}
-            </Link>
+            {/* Links moved to Sidebar */}
           </div>
 
           {/* Right: Actions & User */}
-          <div className="flex items-center justify-end min-w-[200px] gap-4">
+          <div className="flex items-center justify-end gap-3 ml-auto">
             
             <div className="relative" ref={dropdownRef}>
               <button

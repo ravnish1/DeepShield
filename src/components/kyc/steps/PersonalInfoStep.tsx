@@ -15,6 +15,7 @@ export default function PersonalInfoStep() {
   const { formData, updateFormData } = useKYCStore();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [focused, setFocused] = useState<Record<string, boolean>>({});
 
   const validateField = (field: keyof typeof formData, value: string) => {
     let error = "";
@@ -59,6 +60,8 @@ export default function PersonalInfoStep() {
     const isTouched = touched[field];
     const hasError = !!errors[field];
     const isValid = isTouched && !hasError && value.length > 0;
+    const isFocused = focused[field];
+    const shouldFloat = Boolean(value) || isFocused || type === "date";
 
     return (
       <div className="relative floating-label-input mt-2">
@@ -70,16 +73,20 @@ export default function PersonalInfoStep() {
           type={type}
           value={value}
           onChange={(e) => handleChange(field, e.target.value)}
-          onBlur={(e) => handleBlur(field, e.target.value)}
+          onFocus={() => setFocused((prev) => ({ ...prev, [field]: true }))}
+          onBlur={(e) => {
+            setFocused((prev) => ({ ...prev, [field]: false }));
+            handleBlur(field, e.target.value);
+          }}
           className={`pl-10 h-12 text-[14px] font-normal pt-4 transition-colors ${
             hasError ? "border-red-500" : isValid ? "border-green-500" : "border-gray-200"
           }`}
-          placeholder={isTouched ? placeholder : ""}
+          placeholder={shouldFloat ? placeholder : ""}
         />
         <label
           htmlFor={field}
           className={`absolute left-9 top-3.5 text-[11px] uppercase tracking-[0.08em] transition-all duration-200 pointer-events-none ${
-            value
+            shouldFloat
               ? "-translate-y-6 scale-90 bg-white px-1 text-black"
               : "text-secondary"
           }`}
@@ -121,6 +128,7 @@ export default function PersonalInfoStep() {
           </div>
           <Select
             value={formData.gender}
+            onOpenChange={(open) => setFocused((prev) => ({ ...prev, gender: open }))}
             onValueChange={(val) => {
               handleChange("gender", val);
               setTouched((prev) => ({ ...prev, gender: true }));
@@ -145,7 +153,7 @@ export default function PersonalInfoStep() {
           <label
             htmlFor="gender"
             className={`absolute left-9 top-3.5 text-[11px] uppercase tracking-[0.08em] transition-all duration-200 pointer-events-none ${
-              formData.gender
+              formData.gender || focused.gender
                 ? "-translate-y-6 scale-90 bg-white px-1 text-black"
                 : "text-secondary"
             }`}
@@ -184,13 +192,15 @@ export default function PersonalInfoStep() {
               id="brokerRegNumber"
               value={formData.brokerRegNumber}
               onChange={(e) => updateFormData({ brokerRegNumber: e.target.value })}
+              onFocus={() => setFocused((prev) => ({ ...prev, brokerRegNumber: true }))}
+              onBlur={() => setFocused((prev) => ({ ...prev, brokerRegNumber: false }))}
               className="pl-3 h-12 text-[14px] font-normal pt-4 border-gray-200 focus:border-black transition-colors"
-              placeholder="e.g. RERA-HR-2026-0092"
+              placeholder={formData.brokerRegNumber || focused.brokerRegNumber ? "e.g. RERA-HR-2026-0092" : ""}
             />
             <label
               htmlFor="brokerRegNumber"
               className={`absolute left-3 top-5 text-[11px] uppercase tracking-[0.08em] transition-all duration-200 pointer-events-none ${
-                formData.brokerRegNumber
+                formData.brokerRegNumber || focused.brokerRegNumber
                   ? "-translate-y-5 scale-90 bg-white px-1 text-black"
                   : "text-secondary"
               }`}
