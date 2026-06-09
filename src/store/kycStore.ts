@@ -23,9 +23,20 @@ const initialFormData: KYCFormData = {
   phone: "",
   dob: "",
   gender: "",
+  isBroker: false,
+  brokerRegNumber: "",
   documentType: "aadhaar",
   documentNumber: "",
   documentFile: null,
+  aadhaarNumber: "",
+  aadhaarOtp: "",
+  aadhaarShareCode: "",
+  aadhaarVerified: false,
+  propertyProofType: "",
+  propertyProofFile: null,
+  propertyAddress: "",
+  propertyRent: "",
+  selfieFile: null,
   verificationStatus: "idle",
 };
 
@@ -86,17 +97,28 @@ export const useKYCStore = create<KYCState>((set) => ({
   simulateVerification: () => {
     set({ isSubmitting: true });
     setTimeout(() => {
-      const random = Math.random();
+      // Simulate verification checks
       let status: KYCFormData["verificationStatus"] = "approved";
-      if (random > 0.8) {
-        status = "rejected";
-      } else if (random > 0.6) {
-        status = "review";
-      }
-      set((state) => ({
-        isSubmitting: false,
-        formData: { ...state.formData, verificationStatus: status },
-      }));
+      
+      // Let's check some values to determine the status
+      // E.g. If the name is "Rahul Verma" (our demo scenario) or rent is extremely cheap, flag for review
+      set((state) => {
+        const name = `${state.formData.firstName} ${state.formData.lastName}`.toLowerCase();
+        const rentVal = parseFloat(state.formData.propertyRent) || 0;
+        
+        if (name.includes("rahul") && name.includes("verma")) {
+          status = "review"; // Needs review due to multiple risk factors matching rules engine
+        } else if (state.formData.isBroker && !state.formData.brokerRegNumber) {
+          status = "rejected";
+        } else if (rentVal > 0 && rentVal < 10000) {
+          status = "review"; // Suspicious low rent compared to median
+        }
+        
+        return {
+          isSubmitting: false,
+          formData: { ...state.formData, verificationStatus: status },
+        };
+      });
     }, 2500);
   },
 

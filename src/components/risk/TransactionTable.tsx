@@ -27,9 +27,9 @@ export default function TransactionTable() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "clear":
-        return <Badge className="bg-green-100 text-green-800 hover:bg-green-100 uppercase tracking-widest text-[9px] font-bold px-2 py-0.5 gap-1"><CheckCircle2 className="w-3 h-3"/> CLEAR</Badge>;
+        return <Badge className="bg-green-100 text-green-800 hover:bg-green-100 uppercase tracking-widest text-[9px] font-bold px-2 py-0.5 gap-1"><CheckCircle2 className="w-3 h-3"/> CLEARED</Badge>;
       case "flagged":
-        return <Badge className="bg-red-100 text-red-800 hover:bg-red-100 uppercase tracking-widest text-[9px] font-bold px-2 py-0.5 gap-1"><AlertTriangle className="w-3 h-3"/> FLAGGED</Badge>;
+        return <Badge className="bg-red-100 text-red-800 hover:bg-red-100 uppercase tracking-widest text-[9px] font-bold px-2 py-0.5 gap-1"><AlertTriangle className="w-3 h-3"/> INVESTIGATE</Badge>;
       case "review":
         return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 uppercase tracking-widest text-[9px] font-bold px-2 py-0.5 gap-1"><Clock className="w-3 h-3"/> REVIEW</Badge>;
       default:
@@ -72,18 +72,18 @@ export default function TransactionTable() {
         <div className="absolute top-0 left-0 right-0 z-10 -mt-14 mx-4 bg-black rounded-lg px-4 py-3 flex items-center justify-between text-white animate-slide-in-row shadow-lg">
           <div className="text-[13px] font-medium">
             <span className="bg-white text-black px-2 py-0.5 rounded-full mr-3 text-[11px] font-bold">{selectedRows.length}</span>
-            transactions selected
+            risk events selected
           </div>
           <div className="flex gap-2">
             <Button size="sm" variant="ghost" onClick={() => handleBulkAction("flagged")} className="text-white hover:bg-gray-800 hover:text-white h-8 text-[12px] active:scale-[0.97]">
-              <Flag className="w-3.5 h-3.5 mr-2" /> Flag All
+              <Flag className="w-3.5 h-3.5 mr-2" /> Investigate All
             </Button>
             <Button size="sm" variant="ghost" onClick={() => handleBulkAction("clear")} className="text-white hover:bg-gray-800 hover:text-white h-8 text-[12px] active:scale-[0.97]">
               <ShieldCheck className="w-3.5 h-3.5 mr-2" /> Clear All
             </Button>
             <div className="w-px h-4 bg-gray-700 my-auto mx-2" />
             <Button size="sm" variant="ghost" className="text-white hover:bg-gray-800 hover:text-white h-8 text-[12px] active:scale-[0.97]">
-              <Download className="w-3.5 h-3.5 mr-2" /> Export
+              <Download className="w-3.5 h-3.5 mr-2" /> Export Logs
             </Button>
           </div>
         </div>
@@ -101,8 +101,8 @@ export default function TransactionTable() {
                   onChange={toggleSelectAll}
                 />
               </TableHead>
-              <TableHead className="text-[10px] uppercase tracking-widest text-secondary font-semibold">User Details</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-widest text-secondary font-semibold">Amount</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-widest text-secondary font-semibold">Risk Event & Owner</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-widest text-secondary font-semibold">At-Risk Deposit</TableHead>
               <TableHead 
                 className="text-[10px] uppercase tracking-widest text-secondary font-semibold cursor-pointer hover:text-black transition-colors"
                 onClick={() => setSort("riskScore")}
@@ -117,7 +117,7 @@ export default function TransactionTable() {
                 </div>
               </TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest text-secondary font-semibold">Status</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-widest text-secondary font-semibold">Time & Location</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-widest text-secondary font-semibold">Event Time & Location</TableHead>
               <TableHead className="text-right text-[10px] uppercase tracking-widest text-secondary font-semibold w-24">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -132,8 +132,8 @@ export default function TransactionTable() {
                       <line x1="9" y1="9" x2="13" y2="13"></line>
                       <line x1="13" y1="9" x2="9" y2="13"></line>
                     </svg>
-                    <p className="text-[14px] font-medium text-black">No transactions found</p>
-                    <p className="text-[13px] text-gray-400 mt-1 mb-6">Try adjusting your search or filter criteria</p>
+                    <p className="text-[14px] font-medium text-black">No risk events found</p>
+                    <p className="text-[13px] text-gray-400 mt-1 mb-6">Try adjusting your filters or search terms</p>
                     <Button variant="outline" size="sm" onClick={() => setFilter("status", "All")} className="active:scale-[0.97]">
                       Reset Filters
                     </Button>
@@ -156,7 +156,12 @@ export default function TransactionTable() {
                     />
                   </TableCell>
                   <TableCell>
-                    <div className="font-medium text-[13px] text-black">{transaction.name}</div>
+                    <div className="font-semibold text-[13px] text-red-600 font-mono mb-0.5 truncate max-w-[280px]" title={transaction.eventType}>
+                      {transaction.eventType}
+                    </div>
+                    <div className="font-medium text-[13px] text-black">
+                      {transaction.name} 
+                    </div>
                     <div className="text-[12px] text-gray-500">{transaction.email}</div>
                   </TableCell>
                   <TableCell className="font-mono text-[13px] font-medium">

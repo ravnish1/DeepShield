@@ -23,6 +23,9 @@ interface RiskState {
   closeDrawer: () => void;
   updateTransactionStatus: (id: string, status: "clear" | "flagged" | "review") => void;
   bulkUpdateStatus: (ids: string[], status: "clear" | "flagged" | "review") => void;
+  togglePayoutHold: (id: string) => void;
+  toggleListingSuspension: (id: string) => void;
+  addInvestigationNote: (id: string, note: string) => void;
 }
 
 const defaultFilters: Filters = {
@@ -118,6 +121,52 @@ export const useRiskStore = create<RiskState>((set, get) => ({
         ids.includes(t.id) ? { ...t, status } : t
       );
       return { transactions: newTransactions };
+    });
+    useRiskStore.getState().applyFilters();
+  },
+
+  togglePayoutHold: (id) => {
+    set((state) => {
+      const newTransactions = state.transactions.map((t) =>
+        t.id === id ? { ...t, payoutHold: !t.payoutHold } : t
+      );
+      const updatedTx = newTransactions.find((t) => t.id === id) || null;
+      return {
+        transactions: newTransactions,
+        selectedTransaction: state.selectedTransaction?.id === id ? updatedTx : state.selectedTransaction
+      };
+    });
+    useRiskStore.getState().applyFilters();
+  },
+
+  toggleListingSuspension: (id) => {
+    set((state) => {
+      const newTransactions = state.transactions.map((t) =>
+        t.id === id ? { ...t, listingSuspended: !t.listingSuspended } : t
+      );
+      const updatedTx = newTransactions.find((t) => t.id === id) || null;
+      return {
+        transactions: newTransactions,
+        selectedTransaction: state.selectedTransaction?.id === id ? updatedTx : state.selectedTransaction
+      };
+    });
+    useRiskStore.getState().applyFilters();
+  },
+
+  addInvestigationNote: (id, note) => {
+    set((state) => {
+      const newTransactions = state.transactions.map((t) => {
+        if (t.id === id) {
+          const currentNotes = t.notes || [];
+          return { ...t, notes: [...currentNotes, `ANALYST (${new Date().toLocaleTimeString()}): ${note}`] };
+        }
+        return t;
+      });
+      const updatedTx = newTransactions.find((t) => t.id === id) || null;
+      return {
+        transactions: newTransactions,
+        selectedTransaction: state.selectedTransaction?.id === id ? updatedTx : state.selectedTransaction
+      };
     });
     useRiskStore.getState().applyFilters();
   },

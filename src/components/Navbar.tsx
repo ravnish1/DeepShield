@@ -27,11 +27,11 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           
           {/* Left: Brand */}
-          <div className="flex flex-col justify-center min-w-[200px]">
+          <div className="flex flex-col justify-center min-w-[240px]">
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-6 w-6 text-red-600" />
-              <span className="font-mono font-bold text-xl tracking-tight text-black">
-                DeepShield
+              <span className="font-mono font-bold text-lg tracking-tight text-black">
+                DeepShield Rental Trust
               </span>
             </div>
             <div className="flex items-center gap-1.5 mt-0.5 ml-8">
@@ -52,7 +52,7 @@ export default function Navbar() {
                   : "bg-transparent text-gray-500 hover:bg-gray-100"
               }`}
             >
-              KYC Onboarding
+              Owner Verification
             </Link>
             <Link
               to="/risk"
@@ -62,7 +62,7 @@ export default function Navbar() {
                   : "bg-transparent text-gray-500 hover:bg-gray-100"
               }`}
             >
-              Risk Monitor
+              Fraud Control Center
               {flaggedCount > 0 && (
                 <span className={`ml-2 inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
                   location.pathname === "/risk" ? "bg-red-600 text-white" : "bg-red-100 text-red-800"
@@ -102,7 +102,7 @@ export default function Navbar() {
                       </div>
                       <div className="flex-1">
                         <p className="text-sm text-black font-medium leading-snug mb-1">
-                          High risk transaction detected — TXN #a3f8b2c1
+                          Duplicate property images detected — Gurugram Ad Ad Ad
                         </p>
                         <p className="text-xs text-gray-500">2 min ago</p>
                       </div>
@@ -115,7 +115,7 @@ export default function Navbar() {
                       </div>
                       <div className="flex-1">
                         <p className="text-sm text-black font-medium leading-snug mb-1">
-                          KYC submission pending review — Neha Gupta
+                          Owner verification pending review — Rahul Verma
                         </p>
                         <p className="text-xs text-gray-500">14 min ago</p>
                       </div>
@@ -128,7 +128,7 @@ export default function Navbar() {
                       </div>
                       <div className="flex-1">
                         <p className="text-sm text-black font-medium leading-snug mb-1">
-                          System: Fraud model updated to v2.4
+                          System: Rental model updated to v1.2
                         </p>
                         <p className="text-xs text-gray-500">1 hr ago</p>
                       </div>

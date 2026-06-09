@@ -48,10 +48,10 @@ export default function StatusStep() {
   }, [isSubmitting]);
 
   const pipelineLabels = [
-    "Initializing verification...",
-    "Extracting document data...",
-    "Cross-referencing identity...",
-    "Generating risk score..."
+    "Verifying Aadhaar & PAN signatures...",
+    "Extracting property address from document...",
+    "Matching listing owner with billing records...",
+    "Scanning database for stock images..."
   ];
 
   if (isSubmitting) {
@@ -61,7 +61,7 @@ export default function StatusStep() {
           <div className="absolute inset-0 border-4 border-gray-100 rounded-full"></div>
           <div className="absolute inset-0 border-4 border-black rounded-full border-t-transparent animate-spin"></div>
         </div>
-        <h3 className="text-[16px] font-medium text-black mb-6">Processing your application</h3>
+        <h3 className="text-[16px] font-medium text-black mb-6">Running DeepShield Trust Engines</h3>
         
         <div className="w-full max-w-xs space-y-4">
           {pipelineLabels.map((label, idx) => (
@@ -82,17 +82,17 @@ export default function StatusStep() {
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6 relative z-10">
           <CheckCircle2 className="w-8 h-8 text-green-600" />
         </div>
-        <h3 className="text-[22px] font-medium tracking-tight text-black mb-2 relative z-10">Verification Approved</h3>
+        <h3 className="text-[22px] font-medium tracking-tight text-black mb-2 relative z-10">Owner & Listing Approved</h3>
         <p className="text-[14px] text-gray-500 mb-8 max-w-sm relative z-10">
-          Your identity has been successfully verified. Your account is now fully active.
+          Your identity and property proof are fully verified. The property listing is now active on the marketplace.
         </p>
         <div className="flex flex-col gap-3 w-full sm:w-auto">
           <Button onClick={resetKYC} className="bg-black text-white hover:bg-gray-800 active:scale-[0.97] px-8 h-11 text-[13px]">
-            Return to Dashboard
+            Onboard Another Owner
           </Button>
           <Button variant="ghost" className="active:scale-[0.97] text-gray-500 hover:text-black">
             <FileDown className="w-4 h-4 mr-2" />
-            Download Confirmation PDF
+            Download Verification Certificate
           </Button>
         </div>
       </div>
@@ -105,16 +105,20 @@ export default function StatusStep() {
         <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
           <XCircle className="w-8 h-8 text-red-600" />
         </div>
-        <h3 className="text-[22px] font-medium tracking-tight text-black mb-2">Verification Failed</h3>
+        <h3 className="text-[22px] font-medium tracking-tight text-black mb-2">Onboarding Rejected</h3>
         <p className="text-[14px] text-gray-500 mb-6 max-w-sm">
-          We were unable to verify your identity with the provided information.
+          DeepShield blocked listing creation due to unresolved fraud risk signals.
         </p>
         
         <div className="bg-red-50 border border-red-100 rounded-lg p-4 w-full max-w-sm mb-8 flex items-start gap-3 text-left">
           <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
           <div>
             <p className="text-[12px] font-semibold uppercase tracking-wider text-red-800 mb-1">Reason</p>
-            <p className="text-[13px] text-red-900">Document image quality too low. Please ensure all text is legible and there is no glare.</p>
+            <p className="text-[13px] text-red-900">
+              {formData.isBroker && !formData.brokerRegNumber 
+                ? "Broker registration check failed: License details missing." 
+                : "Owner name does not match uploaded property deed or utility records."}
+            </p>
           </div>
         </div>
 
@@ -138,12 +142,12 @@ export default function StatusStep() {
         <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-6">
           <AlertCircle className="w-8 h-8 text-yellow-600" />
         </div>
-        <h3 className="text-[22px] font-medium tracking-tight text-black mb-2">Under Manual Review</h3>
+        <h3 className="text-[22px] font-medium tracking-tight text-black mb-2">Under Trust & Safety Review</h3>
         <p className="text-[14px] text-gray-500 mb-2 max-w-sm">
-          Your application has been flagged for manual review by our compliance team.
+          Listing held. The details matched a pre-configured risk rule (rent listed 40% below locality average or duplicate images).
         </p>
         <p className="text-[13px] font-medium text-black mb-10 bg-gray-50 px-3 py-1 rounded-full">
-          Expected resolution: within 24 hours
+          Expected resolution: within 2 hours
         </p>
 
         {/* Timeline Bar */}
@@ -152,7 +156,7 @@ export default function StatusStep() {
             <div className="absolute top-1.5 left-0 w-full h-0.5 bg-gray-200 -z-10" />
             <div className="absolute top-1.5 left-0 w-2/3 h-0.5 bg-yellow-500 -z-10" />
             
-            {["Submitted", "In Queue", "Under Review", "Decision"].map((label, idx) => (
+            {["Submitted", "Flagged", "Under Review", "Decision"].map((label, idx) => (
               <div key={label} className="flex flex-col items-center">
                 <div className={`w-3.5 h-3.5 rounded-full border-2 mb-2 bg-white ${
                   idx < 2 ? "border-yellow-500" : idx === 2 ? "border-yellow-500 shadow-[0_0_0_4px_rgba(234,179,8,0.2)] animate-pulse" : "border-gray-300"
@@ -166,7 +170,7 @@ export default function StatusStep() {
         </div>
 
         <Button onClick={resetKYC} variant="outline" className="active:scale-[0.97] h-11 px-8 text-[13px]">
-          Return to Dashboard
+          Return to Details
         </Button>
       </div>
     );

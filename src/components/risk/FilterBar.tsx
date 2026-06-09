@@ -56,9 +56,9 @@ export default function FilterBar() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">All Statuses</SelectItem>
-            <SelectItem value="clear">Clear</SelectItem>
+            <SelectItem value="clear">Cleared</SelectItem>
             <SelectItem value="review">Under Review</SelectItem>
-            <SelectItem value="flagged">Flagged</SelectItem>
+            <SelectItem value="flagged">Investigate</SelectItem>
           </SelectContent>
         </Select>
       </div>

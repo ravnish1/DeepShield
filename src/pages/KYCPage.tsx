@@ -32,13 +32,18 @@ export default function KYCPage() {
 
   const handleNext = () => {
     if (currentStep === 0) {
-      if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.dob) {
-        // Validation logic is handled inside component for specific errors, but we prevent navigation here
+      if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.dob || (formData.isBroker && !formData.brokerRegNumber)) {
         return;
       }
     }
     if (currentStep === 1) {
-      if (!formData.documentType || !formData.documentNumber || !formData.documentFile) {
+      const isIdentityValid = formData.documentType === "aadhaar" 
+        ? formData.aadhaarVerified 
+        : (!!formData.documentNumber && !!formData.documentFile);
+      const isPropertyValid = !!formData.propertyProofType && !!formData.propertyAddress && !!formData.propertyRent && !!formData.propertyProofFile;
+      const isSelfieValid = !!formData.selfieFile;
+      
+      if (!isIdentityValid || !isPropertyValid || !isSelfieValid) {
         return;
       }
     }
@@ -50,10 +55,15 @@ export default function KYCPage() {
 
   const isNextDisabled = () => {
     if (currentStep === 0) {
-      return !formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.dob;
+      return !formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.dob || (formData.isBroker && !formData.brokerRegNumber);
     }
     if (currentStep === 1) {
-      return !formData.documentType || !formData.documentNumber || !formData.documentFile;
+      const isIdentityValid = formData.documentType === "aadhaar" 
+        ? formData.aadhaarVerified 
+        : (!!formData.documentNumber && !!formData.documentFile);
+      const isPropertyValid = !!formData.propertyProofType && !!formData.propertyAddress && !!formData.propertyRent && !!formData.propertyProofFile;
+      const isSelfieValid = !!formData.selfieFile;
+      return !isIdentityValid || !isPropertyValid || !isSelfieValid;
     }
     return false;
   };
